@@ -30,7 +30,7 @@ public class quick_sort {
         try {
             List<Record> records = readCsv(inputFile);
             int n = records.size();
-            String outputFile = "quick_sort_" + n + "(java_sorted).csv";
+            String outputFile = "quick_sort_" + n + ".csv";
             
             // Define the sorting logic using a Comparator (this makes the sort reusable)
             Comparator<Record> byNumber = Comparator.comparingInt(r -> r.number);
