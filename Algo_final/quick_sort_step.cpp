@@ -91,23 +91,15 @@ std::vector<DataEntry> readCsvData(const std::string& filename, int start_row, i
     return data;
 }
 
-int main() {
-    std::string dataset_filename = "dataset_1000.csv";
-    int start_row, end_row;
-
-    std::cout << "Enter Start Row: ";
-    std::cin >> start_row;
-    if (start_row < 1) {
-        std::cerr << "Start Row must be greater than or equal to 1." << std::endl;
-        return -1;
+int main(int argc, char* argv[]) {
+    if (argc != 4) {
+        std::cerr << "Usage: " << argv[0] << " <dataset_filename> <start_row> <end_row>" << std::endl;
+        return 1;
     }
 
-    std::cout << "Enter End Row: ";
-    std::cin >> end_row;
-    if (end_row < start_row) {
-        std::cerr << "End Row must be greater than or equal to Start Row." << std::endl;
-        return -1;
-    }
+    std::string dataset_filename = argv[1];
+    int start_row = std::stoi(argv[2]);
+    int end_row = std::stoi(argv[3]);
 
     std::string output_filename = "quick_sort_step_" + std::to_string(start_row) + "_" + std::to_string(end_row) + ".txt";
 
