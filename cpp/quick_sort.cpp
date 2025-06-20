@@ -93,13 +93,19 @@ int main(int argc, char* argv[]) {
 
     std::string input_filename = argv[1]; // e.g., dataset_1000000.csv
 
-    // Generate output filename by appending "(sorted)" before the extension
-    std::string output_filename = input_filename;
-    size_t dot_pos = output_filename.find_last_of('.');
-    if (dot_pos != std::string::npos) {
-        output_filename.insert(dot_pos, "(sorted)");
+    std::string output_filename;
+    size_t last_dot_pos = input_filename.find_last_of('.');
+    size_t last_underscore_pos = input_filename.find_last_of('_');
+
+    if (last_dot_pos != std::string::npos && last_underscore_pos != std::string::npos &&
+        last_underscore_pos < last_dot_pos) {
+        // Extract the number part between the last underscore and the dot
+        std::string number_str = input_filename.substr(last_underscore_pos + 1, last_dot_pos - (last_underscore_pos + 1));
+        output_filename = "quick_sort_" + number_str + "(sorted).csv";
     } else {
-        output_filename += "(sorted)"; // If no extension, just append
+        // Fallback if the naming convention is not as expected, append original filename + ".csv"
+        std::cerr << "Warning: Input filename format not recognized for automatic output naming. Using default naming." << std::endl;
+        output_filename = "quick_sort_output.csv"; // A generic fallback
     }
 
     // Read data (I/O time should not be included in running time capture)
