@@ -64,7 +64,7 @@ public class quick_sort_step {
             }
 
             // Automatically generate the output filename based on startRow and endRow
-            String outputFile = "quick_sort_step_" + startRow + "_" + endRow + "(java_sorted).txt";
+            String outputFile = "quick_sort_step_" + startRow + "_" + endRow + ".txt";
 
             try (BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile))) {
                 Visualizer visualizer = new Visualizer(bw);
