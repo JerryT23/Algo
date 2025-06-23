@@ -37,9 +37,9 @@ int main(void)
     vector<string> vec;
     cout << "Enter the file name (e.g., merge_sort_1000000.csv): ";
     cin >> filename;
-    int inputSize = stoi(filename.substr(13, 7)); // Extracting the input size from the filename
+    int inputSize = stoi(filename.substr(11, 7)); // Extracting the input size from the filename
     ifstream infile(filename);
-    ofstream outfile("binary_search_"+filename.substr(13, 7)+".txt");
+    ofstream outfile("binary_search_"+filename.substr(11, 7)+".txt");
     int worst_case = -1; 
     int average_case = 988166268;
     int best_case = 501382069;
