@@ -37,7 +37,7 @@ int main(void)
     vector<string> vec;
     cout << "Enter the element to search: ";
     cin >> x;
-    cout << "Enter the file name(eg:dataset_1000.csv): ";
+    cout << "Enter the file name(e.g., dataset_1000.csv): ";
     cin >> filename;
     ifstream infile(filename);
 

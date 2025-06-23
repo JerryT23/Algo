@@ -74,9 +74,12 @@ void mergeSort(vector<string>& arr, ofstream& outfile, int left, int right)
 int main()
 {
     string line;
+    string filename;
     vector<string> str;
     int n;
-    ifstream infile("dataset_sample_1000.csv");
+    cout << "Enter the file name (e.g., dataset_1000.csv): ";
+    cin >> filename;
+    ifstream infile(filename);
 
     int startRow;
     int endRow;
