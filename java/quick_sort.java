@@ -39,11 +39,11 @@ public class quick_sort {
             quickSort(records, 0, n - 1, byNumber);
             long endTime = System.nanoTime();
             
-            double durationInSeconds = (endTime - startTime) / 1e9;
+            double durationInMs = (endTime - startTime) / 1e6;
 
             writeCsv(records, outputFile);
 
-            System.out.printf("Sorted %d records using Hybrid Quick Sort in %.6f seconds.\n", n, durationInSeconds);
+            System.out.printf("Sorted %d records using Hybrid Quick Sort in %.6f seconds.\n", n, durationInMs);
             System.out.println("Output file: " + outputFile);
 
         } catch (IOException e) {
