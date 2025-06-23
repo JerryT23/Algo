@@ -17,23 +17,23 @@ public class binary_search {
             int n = data.size();
 
             int bestTarget = data.get(n / 2);
-            long bestTime = timeSearch(data, bestTarget);
+            double bestTime = timeSearchN(data, bestTarget, n);
 
-            long totalAvgTime = 0;
+            double totalAvgTime = 0;
             Random rand = new Random();
             for (int i = 0; i < 100; i++) {
                 int target = data.get(rand.nextInt(n));
-                totalAvgTime += timeSearch(data, target);
+                totalAvgTime += timeSearchN(data, target, n);
             }
-            long avgTime = totalAvgTime / 100;
+            double avgTime = totalAvgTime / 100;
 
             int worstTarget = 1_500_000_000;
-            long worstTime = timeSearch(data, worstTarget);
+            double worstTime = timeSearchN(data, worstTarget, n);
 
             BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile));
-            bw.write("Best case (target=" + bestTarget + "): " + bestTime + " ms\n");
-            bw.write("Average case (100 random targets): " + avgTime + " ms\n");
-            bw.write("Worst case (target=" + worstTarget + "): " + worstTime + " ms\n");
+            bw.write(String.format("Best case (target=%d): %.4f ms\n", bestTarget, bestTime));
+            bw.write(String.format("Average case (100 random targets): %.4f ms\n", avgTime));
+            bw.write(String.format("Worst case (target=%d): %.4f ms\n", worstTarget, worstTime));
             bw.close();
 
             System.out.println("Search timing written to: " + outputFile);
@@ -57,11 +57,13 @@ public class binary_search {
         return list;
     }
 
-    static long timeSearch(List<Integer> list, int target) {
+    static double timeSearchN(List<Integer> list, int target, int n) {
         long start = System.nanoTime();
-        binarySearch(list, target);
+        for (int i = 0; i < n; i++) {
+            binarySearch(list, target);
+        }
         long end = System.nanoTime();
-        return (end - start) / 1_000_000; // ms
+        return (end - start) / 1_000_000.0;
     }
 
     static int binarySearch(List<Integer> list, int target) {
@@ -79,4 +81,3 @@ public class binary_search {
         return -1;
     }
 }
-
