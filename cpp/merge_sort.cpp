@@ -72,10 +72,13 @@ void mergeSort(vector<string>& arr, ofstream& outfile, int left, int right)
 int main()
 {
     string line;
+    string filename;
     vector<string> str;
     int n;
-    ifstream infile("dataset_sample_1000.csv");
-    std::ofstream outfile("merge_sort_1000.csv ");
+    cout << "Enter the file name (e.g., dataset_1000.csv): ";
+    cin >> filename;
+    ifstream infile(filename);
+    std::ofstream outfile("merge_sort_" + filename.substr(8,4) +".csv ");
 
     while (getline(infile, line)) {
         stringstream ss(line);
@@ -91,7 +94,7 @@ int main()
     auto end = chrono::high_resolution_clock::now();
     chrono::duration<double, std::milli> duration = end - start;
     writeVector(str, outfile);
-    outfile << "Running time: " << duration.count() << " ms";
+    cout << "Running time: " << duration.count() << " ms";
     outfile.close();
     return 0;
 }
