@@ -35,10 +35,10 @@ int main(void)
     string line;
     string filename;
     vector<string> vec;
+    cout << "Enter the file name(e.g., quick_sort_1000.csv): ";
+    cin >> filename;
     cout << "Enter the element to search: ";
     cin >> x;
-    cout << "Enter the file name(e.g., dataset_1000.csv): ";
-    cin >> filename;
     ifstream infile(filename);
 
     while (getline(infile, line)) {
