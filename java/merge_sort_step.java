@@ -2,12 +2,10 @@ import java.io.*;
 import java.util.*;
 
 public class merge_sort_step {
-    static List<Element> steps = new ArrayList<>();
-
     public static void main(String[] abc) {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Enter the input  target dataset size:");
+        System.out.println("Enter the input target dataset size:");
         int inputFile = scanner.nextInt();
         String datasetFile = "dataset_" + inputFile + ".csv";
 
@@ -18,38 +16,24 @@ public class merge_sort_step {
         int endRow = scanner.nextInt();
         scanner.close();
 
+        String outputFile = String.format("merge_sort_step_%d_%d.txt", startRow, endRow);
+
         try {
-            List<Element> data = readCSV(datasetFile, startRow, endRow);
-            List<Element> toSort = new ArrayList<>(data);
+            List<String> data = readCSV(datasetFile, startRow, endRow);
 
-            List<String> stepLogs = new ArrayList<>();
-            mergeSort(toSort, stepLogs);
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile))) {
+                formatList(data, bw);
+                mergeSort(data, bw, 0, data.size() - 1);
+            }
 
-            String outputFile = String.format("merge_sort_step_%d_%d.txt", startRow, endRow);
-            writeSteps(outputFile, stepLogs);
             System.out.println("Sorting steps written to: " + outputFile);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    static class Element {
-        int number;
-        String text;
-
-        Element(int number, String text) {
-            this.number = number;
-            this.text = text;
-        }
-
-        @Override
-        public String toString() {
-            return number + "/" + text;
-        }
-    }
-
-    static List<Element> readCSV(String filename, int start, int end) throws IOException {
-        List<Element> list = new ArrayList<>();
+    static List<String> readCSV(String filename, int start, int end) throws IOException {
+        List<String> lines = new ArrayList<>();
         BufferedReader br = new BufferedReader(new FileReader(filename));
         String line;
         int currentRow = 0;
@@ -58,59 +42,58 @@ public class merge_sort_step {
             currentRow++;
             if (currentRow < start) continue;
             if (currentRow > end) break;
-
-            String[] parts = line.split(",", 2);
-            if (parts.length == 2) {
-                int number = Integer.parseInt(parts[0].trim());
-                String text = parts[1].trim();
-                list.add(new Element(number, text));
-            }
+            lines.add(line.trim());
         }
+
         br.close();
-        return list;
+        return lines;
     }
 
-    static void mergeSort(List<Element> list, List<String> stepLog) {
-        if (list.size() <= 1) return;
+    static int extractInt(String s) {
+        return Integer.parseInt(s.substring(0, s.indexOf(',')));
+    }
 
-        int mid = list.size() / 2;
-        List<Element> left = new ArrayList<>(list.subList(0, mid));
-        List<Element> right = new ArrayList<>(list.subList(mid, list.size()));
-
-        mergeSort(left, stepLog);
-        mergeSort(right, stepLog);
-
-        list.clear();
-        int i = 0, j = 0;
-        while (i < left.size() && j < right.size()) {
-            if (left.get(i).number <= right.get(j).number) {
-                list.add(left.get(i++));
-            } else {
-                list.add(right.get(j++));
+    static void formatList(List<String> arr, BufferedWriter bw) throws IOException {
+        bw.write("[");
+        for (int i = 0; i < arr.size(); i++) {
+            bw.write(arr.get(i));
+            if (i != arr.size() - 1) {
+                bw.write(", ");
             }
         }
-        while (i < left.size()) list.add(left.get(i++));
-        while (j < right.size()) list.add(right.get(j++));
-
-        stepLog.add(formatList(list));
+        bw.write("]");
+        bw.newLine();
     }
 
-    static String formatList(List<Element> list) {
-        StringBuilder sb = new StringBuilder("[");
-        for (int i = 0; i < list.size(); i++) {
-            sb.append(list.get(i));
-            if (i != list.size() - 1) sb.append(", ");
-        }
-        sb.append("]");
-        return sb.toString();
+    static void mergeSort(List<String> arr, BufferedWriter bw, int left, int right) throws IOException {
+        if (left >= right) return;
+
+        int mid = left + (right - left) / 2;
+        mergeSort(arr, bw, left, mid);
+        mergeSort(arr, bw, mid + 1, right);
+        merge(arr, left, mid, right);
+        formatList(arr, bw);
     }
 
-    static void writeSteps(String filename, List<String> steps) throws IOException {
-        BufferedWriter bw = new BufferedWriter(new FileWriter(filename));
-        for (String step : steps) {
-            bw.write(step);
-            bw.newLine();
+    static void merge(List<String> arr, int left, int mid, int right) {
+        int n1 = mid - left + 1;
+        int n2 = right - mid;
+
+        List<String> L = new ArrayList<>(arr.subList(left, left + n1));
+        List<String> R = new ArrayList<>(arr.subList(mid + 1, mid + 1 + n2));
+
+        int i = 0, j = 0;
+        int k = left;
+
+        while (i < n1 && j < n2) {
+            if (extractInt(L.get(i)) <= extractInt(R.get(j))) {
+                arr.set(k++, L.get(i++));
+            } else {
+                arr.set(k++, R.get(j++));
+            }
         }
-        bw.close();
+
+        while (i < n1) arr.set(k++, L.get(i++));
+        while (j < n2) arr.set(k++, R.get(j++));
     }
 }
