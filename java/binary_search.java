@@ -5,9 +5,8 @@ public class binary_search {
     public static void main(String[] abc) {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Enter the input  target dataset size:");
-        int inputFile = scanner.nextInt();
-        String datasetFile = "merge_sort_" + inputFile + ".csv";
+        System.out.println("Enter the input target dataset size:(e.g. dataset_1000.csv)");
+        String datasetFile = scanner.nextLine().trim();
         scanner.close();
 
         String outputFile = datasetFile.replace("merge_sort_", "binary_search_").replace(".csv", ".txt");

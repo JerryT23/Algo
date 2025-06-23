@@ -5,9 +5,8 @@ public class binary_search_step {
     public static void main(String[] abc) {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Enter the input target dataset size:");
-        int inputFile = scanner.nextInt();
-        String datasetFile = "merge_sort_" + inputFile + ".csv";
+        System.out.println("Enter the input target dataset size:(e.g. dataset_1000.csv)");
+        String datasetFile = scanner.nextLine().trim();
 
         System.out.print("Enter target number for binary_search_step: ");
         int target = scanner.nextInt();
@@ -76,7 +75,7 @@ public class binary_search_step {
         while (low <= high) {
             int mid = low + (high - low) / 2;
             Element midElement = list.get(mid);
-            log.add(mid + ": " + midElement);
+            log.add(mid + 1 + ": " + midElement);
 
             if (midElement.number == target)
                 return mid;

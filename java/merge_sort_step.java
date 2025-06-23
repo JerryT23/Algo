@@ -5,10 +5,9 @@ public class merge_sort_step {
     public static void main(String[] abc) {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Enter the input target dataset size:");
-        int inputFile = scanner.nextInt();
-        String datasetFile = "dataset_" + inputFile + ".csv";
-
+        System.out.println("Enter the input target dataset size:(e.g. dataset_1000.csv)");
+        String datasetFile = scanner.nextLine().trim();
+        
         System.out.println("Enter the start row:");
         int startRow = scanner.nextInt();
 
