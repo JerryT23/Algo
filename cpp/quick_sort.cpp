@@ -3,7 +3,7 @@
 #include <string>
 #include <fstream>
 #include <sstream>
-#include <chrono>   // For measuring execution time
+#include <chrono>    // For measuring execution time
 #include <algorithm> // For std::swap
 #include <limits>    // For std::numeric_limits
 
@@ -138,11 +138,12 @@ int main() {
         output_filename = "quick_sort_" + number_str + ".csv";
     } else if (last_dot_pos != std::string::npos) {
         // If no underscore pattern, just append "_sorted" before the extension
-        output_filename = input_filename.substr(0, last_dot_pos) + input_filename.substr(last_dot_pos);
+        // Corrected to put "_sorted" before the extension
+        output_filename = input_filename.substr(0, last_dot_pos) + "_sorted" + input_filename.substr(last_dot_pos);
     }
     else {
         // Fallback if no extension, just append "_sorted.csv"
-        output_filename = input_filename + ".csv";
+        output_filename = input_filename + "_sorted.csv";
     }
 
     // Read data from the specified CSV file.
@@ -163,15 +164,15 @@ int main() {
     // End timer for the sorting algorithm.
     auto end_time = std::chrono::high_resolution_clock::now();
 
-    // Calculate the duration of the sorting process.
-    std::chrono::duration<double> duration = end_time - start_time;
+    // Calculate the duration of the sorting process in milliseconds.
+    auto duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
 
     // Write the sorted data to the output CSV file.
     // I/O time for writing is not included in the sorting algorithm's running time measurement.
     writeCsvData(output_filename, data_to_sort);
 
-    // Print the running time and the output filename.
-    std::cout << "Quick sort running time: " << duration.count() << " seconds" << std::endl;
+    // Print the running time in milliseconds and the output filename.
+    std::cout << "Quick sort running time: " << duration_ms.count() << " ms" << std::endl;
     std::cout << "Sorted data saved to: " << output_filename << std::endl;
 
     return 0; // Indicate successful program execution.

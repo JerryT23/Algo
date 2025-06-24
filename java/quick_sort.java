@@ -43,7 +43,7 @@ public class quick_sort {
 
             writeCsv(records, outputFile);
 
-            System.out.printf("Sorted %d records using Quick Sort in %.6f seconds.\n", n, durationInMs);
+            System.out.printf("Sorted %d records using Quick Sort in %.6f ms.\n", n, durationInMs);
             System.out.println("Output file: " + outputFile);
 
         } catch (IOException e) {
