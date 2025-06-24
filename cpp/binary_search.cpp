@@ -1,23 +1,26 @@
 #include <bits/stdc++.h>
 #include <sstream>
 #include <fstream>
+#include <random>
 using namespace std;
 
 int extractInt(const string& s) {
     return stoi(s.substr(0, s.find(',')));
 }
 
-void binarySearch(vector<string> vec,ofstream& outfile, int low, int high, int x)
+void binarySearch(vector<int>& vec, int x)
 {
+    int low = 0;
+    int high = vec.size() - 1;
     while (low <= high) {
         int mid = low + (high - low) / 2;
 
         // Check if x is == mid
-        if (extractInt(vec[mid]) == x)
+        if (vec[mid] == x)
             return ;
 
         // If x greater, go right half
-        if (extractInt(vec[mid]) < x)
+        if (vec[mid] < x)
             low = mid + 1;
         // If x is smaller, go left half
         else
@@ -34,40 +37,40 @@ int main(void)
     int n;
     string line;
     string filename;
-    vector<string> vec;
+    vector<int> vec;
     cout << "Enter the file name (e.g., merge_sort_1000000.csv): ";
     cin >> filename;
     int inputSize = stoi(filename.substr(11, 7)); // Extracting the input size from the filename
     ifstream infile(filename);
     ofstream outfile("binary_search_"+filename.substr(11, 7)+".txt");
     int worst_case = -1; 
-    int average_case = 988166268;
+    int average_case;
     int best_case;
 
     while (getline(infile, line)) {
-        vec.push_back(line);
+        vec.push_back(extractInt(line));
     }
     n = vec.size();
-    best_case = extractInt(vec[n / 2]); // Assuming the best case is the middle element in a sorted array
-
+    average_case = vec[rand() % n]; // Randomly selecting an element for average case
+    best_case = vec[n / 2]; // Assuming the best case is the middle element in a sorted array
 
     start = chrono::high_resolution_clock::now();
     for (int i = 0; i < inputSize; i++) 
-        binarySearch(vec,outfile, 0, n - 1, worst_case);
+        binarySearch(vec, worst_case);
     end = chrono::high_resolution_clock::now();
     duration = end - start;
-    outfile << "Worst Case: " << worst_case << " took " << duration.count() << " ms\n";
+    outfile << "Worst Case: " << worst_case << " took " << duration.count()/inputSize << " ms\n";
 
     start = chrono::high_resolution_clock::now();
     for (int i = 0; i < inputSize; i++) 
-        binarySearch(vec,outfile, 0, n - 1, average_case);
+        binarySearch(vec, average_case);
     end = chrono::high_resolution_clock::now();
     duration = end - start;
     outfile << "Average Case: " << average_case << " took " << duration.count() << " ms\n";
 
     start = chrono::high_resolution_clock::now();
     for (int i = 0; i < inputSize; i++) 
-        binarySearch(vec,outfile, 0, n - 1, best_case);
+        binarySearch(vec, best_case);
     end = chrono::high_resolution_clock::now();
     duration = end - start;
     outfile << "Best Case: " << best_case << " took " << duration.count() << " ms\n";
