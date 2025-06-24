@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.*;
 
 public class dataset_generator {
-    public static void main() {
+    public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter dataset size: ");
         int size = scanner.nextInt();
