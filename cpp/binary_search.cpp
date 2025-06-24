@@ -33,7 +33,7 @@ int main(void)
 {
     auto start = chrono::high_resolution_clock::now();
     auto end = chrono::high_resolution_clock::now();
-    chrono::duration<double, std::nano> duration;
+    chrono::duration<double, std::milli> duration;
     int n;
     string line;
     string filename;
@@ -43,36 +43,36 @@ int main(void)
     int inputSize = stoi(filename.substr(11, filename.find('.') - 11 )); // Extracting the input size from the filename
     ifstream infile(filename);
     ofstream outfile("binary_search_"+filename.substr(11, filename.find('.') - 11 )+".txt");
-    int worst_case = -1; 
     int average_case;
     int best_case;
-
+    
     while (getline(infile, line)) {
         vec.push_back(extractInt(line));
     }
     n = vec.size();
+    int worst_case = -1; 
     average_case = vec[rand() % n]; // Randomly selecting an element for average case
-    best_case = vec[n / 2]; // Assuming the best case is the middle element in a sorted array
+    best_case = vec[(n / 2) - 1]; // Assuming the best case is the middle element in a sorted array
 
     start = chrono::high_resolution_clock::now();
     for (int i = 0; i < inputSize; i++) 
         binarySearch(vec, worst_case);
     end = chrono::high_resolution_clock::now();
     duration = end - start;
-    outfile << "Worst Case: " << worst_case << " took " << duration.count()/inputSize << " ns\n";
+    outfile << "Worst Case: " << worst_case << " took " << duration.count() << " ms\n";
 
     start = chrono::high_resolution_clock::now();
     for (int i = 0; i < inputSize; i++) 
         binarySearch(vec, average_case);
     end = chrono::high_resolution_clock::now();
     duration = end - start;
-    outfile << "Average Case: " << average_case << " took " << duration.count() << " ns\n";
+    outfile << "Average Case: " << average_case << " took " << duration.count() << " ms\n";
 
     start = chrono::high_resolution_clock::now();
     for (int i = 0; i < inputSize; i++) 
         binarySearch(vec, best_case);
     end = chrono::high_resolution_clock::now();
     duration = end - start;
-    outfile << "Best Case: " << best_case << " took " << duration.count() << " ns\n";
+    outfile << "Best Case: " << best_case << " took " << duration.count() << " ms\n";
     return 0;
 }
