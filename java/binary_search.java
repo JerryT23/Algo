@@ -51,7 +51,7 @@ public class binary_search {
             }
 
             // Best Case: Target is the middle element
-            int bestTarget = data.get(n / 2);
+            int bestTarget = data.get((n / 2)-1);
             double bestTime = timeSearchN(data, bestTarget, n);
 
             // Average Case: 100 random targets
@@ -68,10 +68,7 @@ public class binary_search {
             // Assuming IDs are positive, a very large negative or positive number might work.
             // For robustness, consider data.get(0) - 1 or data.get(n-1) + 1 if actual range is unknown.
             int worstTarget = 1_500_000_000; // A large number unlikely to be in typical datasets
-            if (n > 0) {
-                 // A value guaranteed not to be in the list if the list elements are unique and ordered.
-                worstTarget = data.get(n-1) + 1;
-            }
+
             double worstTime = timeSearchN(data, worstTarget, n);
 
             // Write results to the output file
