@@ -42,12 +42,13 @@ int main(void)
     ofstream outfile("binary_search_"+filename.substr(11, 7)+".txt");
     int worst_case = -1; 
     int average_case = 988166268;
-    int best_case = 501382069;
+    int best_case;
 
     while (getline(infile, line)) {
         vec.push_back(line);
     }
     n = vec.size();
+    best_case = extractInt(vec[n / 2]); // Assuming the best case is the middle element in a sorted array
 
 
     start = chrono::high_resolution_clock::now();
