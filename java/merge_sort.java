@@ -5,7 +5,7 @@ public class merge_sort {
     public static void main(String[] abc) {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Enter the input target dataset size:(e.g. dataset_1000.csv)");
+        System.out.println("Enter the input target dataset file name:(e.g. dataset_1000.csv)");
         String datasetFile = scanner.nextLine().trim();
         scanner.close();
 
