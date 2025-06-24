@@ -33,16 +33,16 @@ int main(void)
 {
     auto start = chrono::high_resolution_clock::now();
     auto end = chrono::high_resolution_clock::now();
-    chrono::duration<double, std::milli> duration;
+    chrono::duration<double, std::nano> duration;
     int n;
     string line;
     string filename;
     vector<int> vec;
     cout << "Enter the file name (e.g., merge_sort_1000000.csv): ";
     cin >> filename;
-    int inputSize = stoi(filename.substr(11, 7)); // Extracting the input size from the filename
+    int inputSize = stoi(filename.substr(11, filename.find('.') - 11 )); // Extracting the input size from the filename
     ifstream infile(filename);
-    ofstream outfile("binary_search_"+filename.substr(11, 7)+".txt");
+    ofstream outfile("binary_search_"+filename.substr(11, filename.find('.') - 11 )+".txt");
     int worst_case = -1; 
     int average_case;
     int best_case;
@@ -59,20 +59,20 @@ int main(void)
         binarySearch(vec, worst_case);
     end = chrono::high_resolution_clock::now();
     duration = end - start;
-    outfile << "Worst Case: " << worst_case << " took " << duration.count()/inputSize << " ms\n";
+    outfile << "Worst Case: " << worst_case << " took " << duration.count()/inputSize << " ns\n";
 
     start = chrono::high_resolution_clock::now();
     for (int i = 0; i < inputSize; i++) 
         binarySearch(vec, average_case);
     end = chrono::high_resolution_clock::now();
     duration = end - start;
-    outfile << "Average Case: " << average_case << " took " << duration.count() << " ms\n";
+    outfile << "Average Case: " << average_case << " took " << duration.count() << " ns\n";
 
     start = chrono::high_resolution_clock::now();
     for (int i = 0; i < inputSize; i++) 
         binarySearch(vec, best_case);
     end = chrono::high_resolution_clock::now();
     duration = end - start;
-    outfile << "Best Case: " << best_case << " took " << duration.count() << " ms\n";
+    outfile << "Best Case: " << best_case << " took " << duration.count() << " ns\n";
     return 0;
 }
