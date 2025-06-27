@@ -43,7 +43,7 @@ public class binary_search {
             }
 
             // Best Case: Target is the middle element
-            int bestTarget = data.get(n / 2);
+            int bestTarget = data.get((n / 2)-1);
             double bestTime = timeSearchN(data, bestTarget, n);
 
             // Average Case: 100 random targets
