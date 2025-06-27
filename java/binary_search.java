@@ -9,39 +9,31 @@ public class binary_search {
         String datasetFile = scanner.nextLine().trim();
         scanner.close();
 
-        // --- Start: Modified logic for output filename generation ---
         String outputFileName;
         String baseFileName = datasetFile;
         int lastDotIndex = datasetFile.lastIndexOf(".");
         if (lastDotIndex != -1) {
-            baseFileName = datasetFile.substring(0, lastDotIndex); // Get "quick_sort_1000" from "quick_sort_1000.csv"
+            baseFileName = datasetFile.substring(0, lastDotIndex);
         }
 
         String numberString = "";
         int lastUnderscoreIndex = baseFileName.lastIndexOf("_");
         if (lastUnderscoreIndex != -1 && lastUnderscoreIndex < baseFileName.length() - 1) {
-            // Extract the part after the last underscore
             numberString = baseFileName.substring(lastUnderscoreIndex + 1);
-            // Basic check to see if it's likely a number (can be improved with regex if needed)
             if (!numberString.matches("\\d+")) {
-                numberString = ""; // If it's not purely digits, clear it
+                numberString = "";
             }
         }
 
         if (!numberString.isEmpty()) {
             outputFileName = "binary_search_" + numberString + ".txt";
         } else {
-            // Fallback for unexpected filename formats
             outputFileName = "binary_search_output.txt";
             System.err.println("Warning: Could not extract number from filename for output. Using default: " + outputFileName);
         }
-        // --- End: Modified logic for output filename generation ---
 
         try {
             List<Integer> data = loadData(datasetFile);
-            // It's crucial for Binary Search that the data is sorted.
-            // Assuming the input CSV from previous quick sort example is already sorted.
-            // If not, you might need to sort it here: Collections.sort(data);
             int n = data.size();
 
             // Handle empty data case
@@ -63,13 +55,8 @@ public class binary_search {
             }
             double avgTime = totalAvgTime / 100;
 
-            // Worst Case: Target not in the list (value outside the range, or at an edge)
-            // Choose a value clearly outside the range of typical integer IDs to guarantee not found.
-            // Assuming IDs are positive, a very large negative or positive number might work.
-            // For robustness, consider data.get(0) - 1 or data.get(n-1) + 1 if actual range is unknown.
-            int worstTarget = 1_500_000_000; // A large number unlikely to be in typical datasets
+            int worstTarget = 1_500_000_000;
             if (n > 0) {
-                 // A value guaranteed not to be in the list if the list elements are unique and ordered.
                 worstTarget = data.get(n-1) + 1;
             }
             double worstTime = timeSearchN(data, worstTarget, n);
@@ -93,8 +80,6 @@ public class binary_search {
     }
 
     /**
-     * Loads integer IDs from the first column of a CSV file.
-     * Assumes each line contains an integer followed by a comma and then a string.
      * @param filename The path to the CSV file.
      * @return A list of integers (IDs).
      * @throws IOException If there's an error reading the file.
@@ -118,8 +103,6 @@ public class binary_search {
     }
 
     /**
-     * Times how long it takes to perform binary search 'n' times for a given target.
-     * The timing is for 'n' searches, not a single search.
      * @param list The list to search in.
      * @param target The integer target to search for.
      * @param n The number of times to repeat the search for timing.
@@ -127,7 +110,7 @@ public class binary_search {
      */
     static double timeSearchN(List<Integer> list, int target, int n) {
         long start = System.nanoTime();
-        for (int i = 0; i < n; i++) { // Repeating 'n' times for measurable duration
+        for (int i = 0; i < n; i++) { 
             binarySearch(list, target);
         }
         long end = System.nanoTime();
@@ -136,7 +119,6 @@ public class binary_search {
     }
 
     /**
-     * Performs a standard iterative binary search on a sorted list of integers.
      * @param list The sorted list to search.
      * @param target The integer value to find.
      * @return The index of the target if found, otherwise -1.
