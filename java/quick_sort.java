@@ -2,8 +2,6 @@ import java.io.*;
 import java.util.*;
 
 public class quick_sort {
-
-    // A cutoff for switching to Insertion Sort. A typical value is between 5 and 15.
     private static final int INSERTION_SORT_CUTOFF = 10;
 
     static class Record {
@@ -32,7 +30,6 @@ public class quick_sort {
             int n = records.size();
             String outputFile = "quick_sort_" + n + ".csv";
             
-            // Define the sorting logic using a Comparator (this makes the sort reusable)
             Comparator<Record> byNumber = Comparator.comparingInt(r -> r.number);
 
             long startTime = System.nanoTime();
@@ -53,7 +50,6 @@ public class quick_sort {
         }
     }
 
-    // This now uses try-with-resources for automatic closing and better error handling
     public static List<Record> readCsv(String filename) throws IOException {
         List<Record> records = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
@@ -75,25 +71,18 @@ public class quick_sort {
         }
     }
 
-    /**
-     * The main Quick Sort driver method. It's now generic thanks to the Comparator.
-     */
     public static <T> void quickSort(List<T> list, int low, int high, Comparator<? super T> c) {
         if (low + INSERTION_SORT_CUTOFF > high) {
-            // For small subarrays, Insertion Sort is more efficient.
             insertionSort(list, low, high, c);
         } else {
-            // Using median-of-three pivot selection to avoid worst-case O(n^2)
             int middle = (low + high) / 2;
             if (c.compare(list.get(middle), list.get(low)) < 0) Collections.swap(list, low, middle);
             if (c.compare(list.get(high), list.get(low)) < 0) Collections.swap(list, low, high);
             if (c.compare(list.get(high), list.get(middle)) < 0) Collections.swap(list, middle, high);
 
-            // Place pivot at position high - 1
             Collections.swap(list, middle, high - 1);
             T pivot = list.get(high - 1);
 
-            // Begin partitioning
             int i = low, j = high - 1;
             while (true) {
                 while (c.compare(list.get(++i), pivot) < 0) {}
@@ -101,7 +90,6 @@ public class quick_sort {
                 if (i >= j) break;
                 Collections.swap(list, i, j);
             }
-            // Restore pivot
             Collections.swap(list, i, high - 1);
 
             quickSort(list, low, i - 1, c);
@@ -109,9 +97,6 @@ public class quick_sort {
         }
     }
     
-    /**
-     * A simple insertion sort for small subarrays.
-     */
     private static <T> void insertionSort(List<T> list, int low, int high, Comparator<? super T> c) {
         for (int p = low + 1; p <= high; p++) {
             T tmp = list.get(p);

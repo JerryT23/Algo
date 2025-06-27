@@ -11,15 +11,11 @@ void binarySearch(vector<string> vec,ofstream& outfile, int low, int high, int x
     while (low <= high) {
         int mid = low + (high - low) / 2;
 
-        outfile << to_string(mid+1) << ": " << vec[mid] << endl; //row number = index number + 1
-        // Check if x is == mid
+        outfile << to_string(mid+1) << ": " << vec[mid] << endl;
         if (extractInt(vec[mid]) == x)
             return ;
-
-        // If x greater, go right half
         if (extractInt(vec[mid]) < x)
             low = mid + 1;
-        // If x is smaller, go left half
         else
             high = mid - 1;
     }
@@ -27,7 +23,6 @@ void binarySearch(vector<string> vec,ofstream& outfile, int low, int high, int x
     outfile << to_string(-1);
 }
 
-// Driver code
 int main(void)
 {
     int x;

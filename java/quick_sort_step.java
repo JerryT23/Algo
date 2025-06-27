@@ -15,7 +15,6 @@ public class quick_sort_step {
 
         @Override
         public String toString() {
-            // Changed separator from ':' to '/' as requested
             return number + "/" + text;
         }
     }
@@ -28,13 +27,11 @@ public class quick_sort_step {
         }
 
         public void logInitialState(List<Record> records) throws IOException {
-            // Removed "Initial Array: " prefix and extra newLine as requested
             writer.write(formatRecords(records));
-            writer.newLine(); // Keep one new line after initial state
+            writer.newLine();
         }
 
         public void logPartition(int pivotIndex, List<Record> records) throws IOException {
-            // Modified to match C++ output format "pi=X " without extra prefixes
             writer.write("pi=" + pivotIndex + " ");
             writer.write(formatRecords(records));
             writer.newLine();
@@ -48,10 +45,9 @@ public class quick_sort_step {
     }
 
     public static void main(String[] args) {
-        // Use try-with-resources for the Scanner to ensure it's closed automatically
         try (Scanner sc = new Scanner(System.in)) {
             System.out.print("Enter dataset filename (e.g. dataset_1000.csv): ");
-            String inputFile = sc.nextLine().trim(); // Get filename interactively
+            String inputFile = sc.nextLine().trim();
 
             System.out.print("Enter start row: ");
             int startRow = sc.nextInt();
@@ -63,7 +59,6 @@ public class quick_sort_step {
                 return;
             }
 
-            // Automatically generate the output filename based on startRow and endRow
             String outputFile = "quick_sort_step_" + startRow + "_" + endRow + ".txt";
 
             try (BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile))) {
@@ -95,12 +90,12 @@ public class quick_sort_step {
         List<Record> result = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             String line;
-            for (int i = 1; (line = br.readLine()) != null; i++) { // Loop through all lines
-                if (i >= startRow && i <= endRow) { // Process only lines within the specified range
+            for (int i = 1; (line = br.readLine()) != null; i++) {
+                if (i >= startRow && i <= endRow) {
                     String[] parts = line.split(",", 2);
                     if (parts.length < 2) {
                         System.err.println("Warning: Skipping malformed line " + i + ": " + line);
-                        continue; // Skip malformed lines gracefully
+                        continue; 
                     }
                     try {
                         result.add(new Record(Integer.parseInt(parts[0].trim()), parts[1].trim()));
@@ -108,7 +103,7 @@ public class quick_sort_step {
                         throw new NumberFormatException("Invalid number format in row " + i + ": " + parts[0].trim());
                     }
                 }
-                if (i > endRow) { // Stop reading once past the endRow
+                if (i > endRow) {
                     break;
                 }
             }
@@ -121,11 +116,10 @@ public class quick_sort_step {
             final int INSERTION_SORT_CUTOFF = 1; 
             
             if (high - low + 1 < INSERTION_SORT_CUTOFF) {
-                // This block will now only be entered for sub-arrays of size 0 or 1
-                insertionSort(arr, low, high); // Insertion sort handles these base cases effectively
+                insertionSort(arr, low, high);
             } else {
                 int pi = partition(arr, low, high);
-                visualizer.logPartition(pi, arr); // Log the array after partition and pivot placement
+                visualizer.logPartition(pi, arr); 
 
                 // Recursive calls for sub-arrays
                 quickSort(arr, low, pi - 1, visualizer);
@@ -134,22 +128,20 @@ public class quick_sort_step {
         }
     }
 
-    // Corrected to use Lomuto partition scheme with last element as pivot
     public static int partition(List<Record> arr, int low, int high) {
-        Record pivot = arr.get(high); // Last element as pivot
-        int i = (low - 1); // Index of smaller element
+        Record pivot = arr.get(high); 
+        int i = (low - 1); 
 
-        for (int j = low; j < high; j++) { // Iterate from low up to (but not including) high
+        for (int j = low; j < high; j++) {
             if (arr.get(j).number <= pivot.number) {
                 i++;
                 Collections.swap(arr, i, j);
             }
         }
-        Collections.swap(arr, i + 1, high); // Place pivot at its correct sorted position
-        return (i + 1); // Return the pivot's final index
+        Collections.swap(arr, i + 1, high); 
+        return (i + 1); 
     }
 
-    // Insertion Sort for small sub-arrays (part of hybrid Quick Sort)
     private static <T extends quick_sort_step.Record> void insertionSort(List<T> list, int low, int high) {
         for (int p = low + 1; p <= high; p++) {
             T tmp = list.get(p);
