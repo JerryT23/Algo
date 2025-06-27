@@ -42,7 +42,7 @@ public class binary_search {
                 return;
             }
 
-            int bestTarget = data.get(n / 2);
+            int bestTarget = data.get(n / 2) - 1;
             double bestTime = timeSearchN(data, bestTarget, n);
 
             double totalAvgTime = 0;
